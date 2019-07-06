@@ -15,7 +15,7 @@ export default abstract class StoreBase<State extends object, Mutations extends 
     protected abstract mutations: Mutations;
     constructor();
     protected init(): void;
-    commmit<T extends keyof StoreBase<State, Mutations>['mutations']>(key: T, payload: FirstArg<StoreBase<State, Mutations>['mutations'][T]>): void;
+    commmit<T extends keyof StoreBase<State, Mutations>['mutations']>(key: T, payload?: FirstArg<StoreBase<State, Mutations>['mutations'][T]>): void;
     readonly getState: StoreBase<State, Mutations>['cache'];
     private makeCache;
     private setCache;

@@ -48,7 +48,7 @@ export default abstract class StoreBase<
 
   public commmit<T extends keyof StoreBase<State, Mutations>['mutations']>(
     key: T,
-    payload: FirstArg<StoreBase<State, Mutations>['mutations'][T]>
+    payload?: FirstArg<StoreBase<State, Mutations>['mutations'][T]>
   ): void {
     this.mutations[key].apply(this, [payload])
     this.emit('change', this)
