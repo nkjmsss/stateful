@@ -32,7 +32,7 @@ export default abstract class StoreBase<
   protected abstract state: State
 
   // readonly cloned state
-  private cache!: deepReadOnly<StoreBase<State, Mutations>['state']>
+  protected cache!: deepReadOnly<StoreBase<State, Mutations>['state']>
 
   protected abstract mutations: Mutations
 

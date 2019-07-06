@@ -1,4 +1,4 @@
-import { //
+import { deepReadOnly, //
 Emitter, CallbackFn } from '.';
 export declare const StoreEvents: readonly ["change"];
 export declare type StoreEventsName = (typeof StoreEvents)[any];
@@ -11,7 +11,7 @@ export default interface StoreBase<State extends object, Mutations extends Recor
 }
 export default abstract class StoreBase<State extends object, Mutations extends Record<string, (arg: any) => void>> extends Emitter<StoreEventsName> {
     protected abstract state: State;
-    private cache;
+    protected cache: deepReadOnly<StoreBase<State, Mutations>['state']>;
     protected abstract mutations: Mutations;
     constructor();
     protected init(): void;
