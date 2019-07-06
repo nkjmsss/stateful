@@ -1,0 +1,32 @@
+{
+  "name": "@nkjmsss/stateful",
+  "version": "1.0.0",
+  "description": "vuex-like state manager",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc src/index.ts --outdir dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nkjmsss/stateful.git"
+  },
+  "keywords": [
+    "vuex",
+    "state",
+    "stateful"
+  ],
+  "author": "nkjmsss",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nkjmsss/stateful/issues"
+  },
+  "homepage": "https://github.com/nkjmsss/stateful#readme",
+  "devDependencies": {
+    "@types/lodash": "^4.14.135",
+    "@types/node": "^12.0.12",
+    "lodash": "^4.17.11",
+    "typescript": "^3.5.2"
+  }
+}
