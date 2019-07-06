@@ -16,7 +16,7 @@ type FirstArg<T> = T extends (payload: infer T) => any ? T : never
 
 export default interface StoreBase<
   State extends object,
-  Mutations extends Record<string, (arg: any) => void>
+  Mutations extends Record<string, (arg?: any) => void>
 > extends Emitter<StoreEventsName> {
   emit(event: 'change', store: StoreBase<State, Mutations>): this
   emit(event: StoreEventsName, ...args: any): this
@@ -27,7 +27,7 @@ export default interface StoreBase<
 
 export default abstract class StoreBase<
   State extends object,
-  Mutations extends Record<string, (arg: any) => void>
+  Mutations extends Record<string, (arg?: any) => void>
 > extends Emitter<StoreEventsName> {
   protected abstract state: State
 
