@@ -1,6 +1,6 @@
 {
   "name": "@nkjmsss/stateful",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": false,
   "description": "vuex-like state manager",
   "publishConfig": {
