@@ -20,13 +20,9 @@ type FirstArg<T extends (...args: any) => any> = Parameters<T> extends []
   ? T
   : never
 
-type foo = Exclude<number | undefined, undefined>
-type bar = Extract<number | undefined, undefined>
-type baz = Extract<number, undefined>
-
 export default interface StoreBase<
   State extends object,
-  Mutations extends Record<string, (arg?: any) => void>
+  Mutations extends Record<string, (...arg: [any?]) => void>
 > extends Emitter<StoreEventsName> {
   emit(event: 'change', store: StoreBase<State, Mutations>): this
   emit(event: StoreEventsName, ...args: any): this
