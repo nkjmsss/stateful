@@ -2,6 +2,12 @@
 
 This is a vuex-like state manager.
 
+## installation
+
+```shell
+$ npm i --save @nkjmsss/stateful
+```
+
 ## usage
 
 NOTE: You must define `state` and `mutations`.
