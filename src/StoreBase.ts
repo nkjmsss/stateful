@@ -37,7 +37,7 @@ export default interface StoreBase<
 
 export default abstract class StoreBase<
   State extends object,
-  Mutations extends Record<string, (arg?: any) => void>
+  Mutations extends Record<string, (...arg: [any?]) => void>
 > extends Emitter<StoreEventsName> {
   protected abstract state: State
 

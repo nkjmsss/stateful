@@ -9,7 +9,7 @@ export default interface StoreBase<State extends object, Mutations extends Recor
     on(event: 'change', fn: (store: StoreBase<State, Mutations>) => void): this;
     on(event: StoreEventsName, fn: CallbackFn): this;
 }
-export default abstract class StoreBase<State extends object, Mutations extends Record<string, (arg?: any) => void>> extends Emitter<StoreEventsName> {
+export default abstract class StoreBase<State extends object, Mutations extends Record<string, (...arg: [any?]) => void>> extends Emitter<StoreEventsName> {
     protected abstract state: State;
     protected cache: deepReadOnly<StoreBase<State, Mutations>['state']>;
     protected abstract mutations: Mutations;
