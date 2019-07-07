@@ -12,7 +12,17 @@ export const StoreEvents = [
 
 export type StoreEventsName = (typeof StoreEvents)[any]
 
-type FirstArg<T> = T extends (payload: infer T) => any ? T : never
+// returns first arg type
+// if function's first arg doesn't exists, returns never
+type FirstArg<T extends (...args: any) => any> = Parameters<T> extends []
+  ? never
+  : T extends (payload: infer T) => any
+  ? T
+  : never
+
+type foo = Exclude<number | undefined, undefined>
+type bar = Extract<number | undefined, undefined>
+type baz = Extract<number, undefined>
 
 export default interface StoreBase<
   State extends object,
@@ -48,9 +58,18 @@ export default abstract class StoreBase<
 
   public commmit<T extends keyof StoreBase<State, Mutations>['mutations']>(
     key: T,
-    payload?: FirstArg<StoreBase<State, Mutations>['mutations'][T]>
+    ...payload: FirstArg<
+      StoreBase<State, Mutations>['mutations'][T]
+    > extends never
+      ? [never?]
+      : Extract<
+          FirstArg<StoreBase<State, Mutations>['mutations'][T]>,
+          undefined
+        > extends never
+      ? [FirstArg<StoreBase<State, Mutations>['mutations'][T]>]
+      : [FirstArg<StoreBase<State, Mutations>['mutations'][T]>?]
   ): void {
-    this.mutations[key].apply(this, [payload])
+    this.mutations[key].apply(this, payload)
     this.emit('change', this)
   }
 

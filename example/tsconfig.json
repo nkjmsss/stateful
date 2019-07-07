@@ -16,11 +16,8 @@
     "strictFunctionTypes": true,
     "baseUrl": ".",
     "types": ["@types/node"],
-    "outDir": "dist",
-    "rootDir": "src",
     "paths": {
-      "@nkjmsss/stateful": ["./dist"]
+      "@nkjmsss/stateful": ["../dist"]
     }
-  },
-  "exclude": ["./example", "./dist"]
+  }
 }
