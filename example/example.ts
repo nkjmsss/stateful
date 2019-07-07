@@ -27,6 +27,11 @@ class Store extends Stateful<Store['state'], Store['mutations']> {
       }
     },
   }
+
+  constructor() {
+    super()
+    this.init()
+  }
 }
 
 const StoreInstance = new Store()
@@ -46,7 +51,12 @@ const baz = StoreInstance.getState.baz
 // StoreInstance.getState.baz.key1 = 1 // Cannot assign to 'key1' because it is a read-only property.ts(2540)
 
 // mutating using mutation
-StoreInstance.commmit('incrementFoo')
-StoreInstance.commmit('setBar', 'qux')
-StoreInstance.commmit('optionalMutation')
-StoreInstance.commmit('optionalMutation', 12)
+StoreInstance.commit('incrementFoo')
+StoreInstance.commit('setBar', 'qux')
+StoreInstance.commit('optionalMutation')
+StoreInstance.commit('optionalMutation', 12)
+
+// watch state
+StoreInstance.on('updated', store => {
+  console.log(store.getState)
+})

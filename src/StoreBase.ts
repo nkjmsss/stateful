@@ -7,7 +7,8 @@ import {
 } from '.'
 
 export const StoreEvents = [
-  'change', //
+  'beforeChange', //
+  'updated',
 ] as const
 
 export type StoreEventsName = (typeof StoreEvents)[any]
@@ -24,10 +25,15 @@ export default interface StoreBase<
   State extends object,
   Mutations extends Record<string, (...arg: [any?]) => void>
 > extends Emitter<StoreEventsName> {
-  emit(event: 'change', store: StoreBase<State, Mutations>): this
+  emit(event: 'beforeChange', store: StoreBase<State, Mutations>): this
+  emit(event: 'updated', store: StoreBase<State, Mutations>): this
   emit(event: StoreEventsName, ...args: any): this
 
-  on(event: 'change', fn: (store: StoreBase<State, Mutations>) => void): this
+  on(
+    event: 'beforeChange',
+    fn: (store: StoreBase<State, Mutations>) => void
+  ): this
+  on(event: 'updated', fn: (store: StoreBase<State, Mutations>) => void): this
   on(event: StoreEventsName, fn: CallbackFn): this
 }
 
@@ -52,7 +58,7 @@ export default abstract class StoreBase<
     this.setCache(this)
   }
 
-  public commmit<T extends keyof StoreBase<State, Mutations>['mutations']>(
+  public commit<T extends keyof StoreBase<State, Mutations>['mutations']>(
     key: T,
     ...payload: FirstArg<
       StoreBase<State, Mutations>['mutations'][T]
@@ -66,7 +72,13 @@ export default abstract class StoreBase<
       : [FirstArg<StoreBase<State, Mutations>['mutations'][T]>?]
   ): void {
     this.mutations[key].apply(this, payload)
-    this.emit('change', this)
+    this.emit('beforeChange', this)
+  }
+
+  // very unsafe method
+  // You wouldn't need this as long as you are using this correctly
+  public forceUpdate(): void {
+    this.cache = this.makeCache()
   }
 
   get getState(): StoreBase<State, Mutations>['cache'] {
@@ -80,10 +92,11 @@ export default abstract class StoreBase<
 
   private setCache = throttle((newState: StoreBase<State, Mutations>) => {
     this.cache = newState.makeCache()
-  }, 100) // TODO find good refresh rate
+    this.emit('updated', this)
+  }, 100)
 
   private registerEvents(): void {
-    this.on('change', newState => {
+    this.on('beforeChange', newState => {
       this.setCache(newState)
     })
   }
