@@ -1,10 +1,10 @@
-export declare type CallbackFn = (...args: any) => any
+export type CallbackFn<Args extends Array<any>> = (...args: Args) => void
 
-export default class Emitter<T extends string> {
-  callbacks: Partial<Record<T, CallbackFn[]>> = {}
+export default class Emitter<T extends Record<string, Array<any>>> {
+  callbacks: { [K in keyof T]?: CallbackFn<T[K]>[] } = {}
 
   // Add an event listener for given event
-  on(event: T, fn: CallbackFn): this {
+  on<K extends keyof T>(event: K, fn: CallbackFn<T[K]>): this {
     const callbacks = this.callbacks[event]
 
     if (callbacks) {
@@ -16,7 +16,7 @@ export default class Emitter<T extends string> {
     return this
   }
 
-  emit(event: T, ...args: any): this {
+  emit<K extends keyof T>(event: K, ...args: T[K]): this {
     const callbacks = this.callbacks[event]
 
     if (callbacks) {
@@ -29,7 +29,7 @@ export default class Emitter<T extends string> {
   // Remove event listener for given event.
   // If fn is not provided, all event listeners for that event will be removed.
   // If neither is provided, all event listeners will be removed.
-  off(event?: T, fn?: CallbackFn): this {
+  off<K extends keyof T>(event?: K, fn?: CallbackFn<T[K]>): this {
     if (!event) {
       this.callbacks = {}
     } else {

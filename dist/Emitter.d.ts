@@ -1,7 +1,9 @@
-export declare type CallbackFn = (...args: any) => any;
-export default class Emitter<T extends string> {
-    callbacks: Partial<Record<T, CallbackFn[]>>;
-    on(event: T, fn: CallbackFn): this;
-    emit(event: T, ...args: any): this;
-    off(event?: T, fn?: CallbackFn): this;
+export declare type CallbackFn<Args extends Array<any>> = (...args: Args) => void;
+export default class Emitter<T extends Record<string, Array<any>>> {
+    callbacks: {
+        [K in keyof T]?: CallbackFn<T[K]>[];
+    };
+    on<K extends keyof T>(event: K, fn: CallbackFn<T[K]>): this;
+    emit<K extends keyof T>(event: K, ...args: T[K]): this;
+    off<K extends keyof T>(event?: K, fn?: CallbackFn<T[K]>): this;
 }
