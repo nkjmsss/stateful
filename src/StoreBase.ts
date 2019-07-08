@@ -48,7 +48,7 @@ export default abstract class StoreBase<
     this.cache = this.makeCache()
   }
 
-  get getState(): StoreBase<State, Mutations>['cache'] {
+  public get getState(): StoreBase<State, Mutations>['cache'] {
     return this.cache
   }
 
