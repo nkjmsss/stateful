@@ -17,12 +17,12 @@ export default abstract class StoreBase<
   State extends object,
   Mutations extends Record<string, (...arg: [any?]) => void>
 > extends Emitter<StoreEvents<State, Mutations>> {
-  protected abstract state: State
+  protected abstract readonly state: State
 
   // readonly cloned state
   protected cache!: deepReadOnly<StoreBase<State, Mutations>['state']>
 
-  protected abstract mutations: Mutations
+  protected abstract readonly mutations: Mutations
 
   constructor() {
     super()

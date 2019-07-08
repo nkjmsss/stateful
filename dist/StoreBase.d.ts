@@ -5,9 +5,9 @@ declare type StoreEvents<State extends object, Mutations extends Record<string, 
     updated: [StoreBase<State, Mutations>];
 };
 export default abstract class StoreBase<State extends object, Mutations extends Record<string, (...arg: [any?]) => void>> extends Emitter<StoreEvents<State, Mutations>> {
-    protected abstract state: State;
+    protected abstract readonly state: State;
     protected cache: deepReadOnly<StoreBase<State, Mutations>['state']>;
-    protected abstract mutations: Mutations;
+    protected abstract readonly mutations: Mutations;
     constructor();
     protected init(): void;
     commit<T extends keyof StoreBase<State, Mutations>['mutations']>(key: T, ...payload: Parameters<StoreBase<State, Mutations>['mutations'][T]>): void;

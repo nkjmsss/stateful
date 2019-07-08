@@ -1,7 +1,7 @@
 import Stateful from '@nkjmsss/stateful'
 
 class Store extends Stateful<Store['state'], Store['mutations']> {
-  protected state = {
+  protected readonly state = {
     foo: 1,
     bar: 'bar',
     baz: {
@@ -10,7 +10,7 @@ class Store extends Stateful<Store['state'], Store['mutations']> {
     },
   }
 
-  protected mutations = {
+  protected readonly mutations = {
     incrementFoo: () => {
       this.state.foo++
     },
